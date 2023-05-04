@@ -4,10 +4,10 @@ const { throwError } = require("../utils/handleErrors");
 const bcrypt = require("bcrypt");
 const util = require("../utils/util");
 const { validateParameters } = require("../utils/util");
-const Wallet = require("./Wallet");
-const WalletSchema = require("../models/walletModel");
-const ApartmentSchema = require("../models/apartmentModel");
-const ApartmentWishlistSchema = require("../models/apartmentWishlistModel");
+// const Wallet = require("./Wallet");
+// const WalletSchema = require("../models/walletModel");
+const ApartmentSchema = require("../models/productModel");
+const ApartmentWishlistSchema = require("../models/productWishlistModel");
 const {
   sendResetPasswordToken,
   SuccessfulPasswordReset,
@@ -81,11 +81,11 @@ class User {
       throwError(this.errors);
     }
     const newUser = await new UserSchema(this.data).save();
-    const wallet = await new Wallet({ userId: newUser._id }).createWallet();
-    if (newUser.role !== USER_TYPE.USER) {
-      wallet.withdrawableBalance = 0;
-      wallet.save();
-    }
+    // const wallet = await new Wallet({ userId: newUser._id }).createWallet();
+    // if (newUser.role !== USER_TYPE.USER) {
+    //   wallet.withdrawableBalance = 0;
+    //   wallet.save();
+    // }
     await sendEmailToken(newUser.email, verificationCode1, newUser.firstName);
     return newUser;
   }

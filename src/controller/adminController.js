@@ -5,6 +5,62 @@ const { ADMIN_ROLES } = require("../utils/constants");
 const Admin = require("../service/Admin");
 
 
+exports.signup = async (req, res) => {
+  try {
+    const newUser = await new User(req.body).signup();
+    const token = await generateAuthToken({
+      userId: newUser._id,
+      isVerified: newUser.isVerified,
+      role: newUser.role,
+    });
+    return success(res, { newUser, token });
+  } catch (err) {
+    logger.error("Error occurred at signup", err);
+    return error(res, { code: err.code, message: err });
+  }
+};
+
+exports.login = async (req, res) => {
+  try {
+    const userDetails = await new Admin(req.body).login();
+    const token = await generateAuthToken({
+      userId: userDetails._id,
+      isVerified: userDetails.isVerified,
+      role: userDetails.role,
+    });
+    return success(res, { userDetails, token });
+  } catch (err) {
+    logger.error("Error occurred at login", err.message);
+    return error(res, { code: err.code, message: err.message });
+  }
+};
+
+exports.forgotPassword = (req, res) => {
+  new Admin(req.body)
+    .forgotPassword()
+    .then((data) =>
+      success(res, {
+        status: "success",
+        success: true,
+        message: "Token Has Been Sent To Your Email",
+      })
+    )
+    .catch((err) => error(res, { code: err.code, message: err.message }));
+};
+
+exports.resetPassword = (req, res) => {
+  new User(req.body)
+    .resetPassword()
+    .then((data) =>
+      success(res, {
+        status: "success",
+        success: true,
+        message: "Password Reset Successful",
+      })
+    )
+    .catch((err) => error(res, { code: err.code, message: err.message }));
+};
+
 exports.getAllIndividualHost = async (req, res) => {
     try {
       const individualHost = await new Admin(req.params).getAllIndividualHost();
@@ -66,6 +122,26 @@ exports.verifyHost = async (req, res) => {
      return error(res, { code: 400, message: 'apartment not found' });
     } catch (err) {
       logger.error("Unable to delete account", err);
+      return error(res, { code: err.code, message: err.message });
+    }
+  }
+
+  exports.subcribeToNewsletter = async(req, res) =>{
+    try {
+      const user = await new Admin(req.body).subcribeToNewsletter();
+      return success(res, { user });
+    } catch (err) {
+      logger.error("Unable to complete request", err);
+      return error(res, { code: err.code, message: err.message });
+    }
+  }
+  
+  exports.getAllSubcribedUser = async(req, res) =>{
+    try {
+      const user = await new Admin().getAllSubcribedUser();
+      return success(res, { user });
+    } catch (err) {
+      logger.error("Unable to complete request", err);
       return error(res, { code: err.code, message: err.message });
     }
   }

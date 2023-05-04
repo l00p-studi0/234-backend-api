@@ -4,7 +4,7 @@ module.exports = {
   MONGODB_URI: process.env.MONGODB_URI,
   MONGODB_TEST_URI: process.env.MONGODB_TEST_URI,
   JWT_SECRETE_KEY: process.env.JWT_SECRETE_KEY,
-  PORT: process.env.PORT || 7000,
+  PORT: process.env.PORT || 5000,
   TOKEN_DURATION: "720h",
   CONNECTION_TIMEOUT: process.env.CONNECTION_TIMEOUT,
   DEFAULT_IMAGE_URL: process.env.DEFAULT_IMAGE_URL,

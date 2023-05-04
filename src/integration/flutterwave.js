@@ -1,6 +1,5 @@
 // /*eslint-disable*/
 var axios = require("axios");
-const FlutterSchema = require("../models/flutterModel");
 const Flutterwave = require("flutterwave-node-v3");
 const { FRONTEND_BASE_URL, FLW_SECRET_KEY } = require("../core/config");
 const { throwError } = require("../utils/handleErrors");

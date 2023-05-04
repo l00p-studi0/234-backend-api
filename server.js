@@ -10,7 +10,7 @@ const { PORT } = require('./src/core/config');
 
 // Routers
 const baseRouter = require('./src/router');
-const apartmentRouter = require('./src/router/apartmentRouter');
+const productRouter = require('./src/router/productRouter');
 const userRouter = require('./src/router/userRouter');
 // const walletRouter = require('./src/router/walletRouter');
 const transactionRouter = require('./src/router/transactionRouter');
@@ -28,7 +28,7 @@ app.use(morgan('tiny'));
 
 // Router Middleware
 app.use('/', baseRouter);
-app.use('/api', apartmentRouter);
+app.use('/api', productRouter);
 app.use('/api', userRouter);
 // app.use('/api', walletRouter);
 app.use('/api', transactionRouter);

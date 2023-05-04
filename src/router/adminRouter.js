@@ -5,6 +5,13 @@ const { authenticate, permit } = require("../core/userAuth");
 const { ADMIN_ROLES, USER_TYPE } = require("../utils/constants");
 const upload = require("../core/multer");
 
+
+adminRoute
+  .route("/users")
+  .post(adminController.signup)
+
+adminRoute.route("/users/login").post(adminController.login);
+
 adminRoute
   .route("/admin/allbusiness")
   .get(
