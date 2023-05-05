@@ -6,12 +6,7 @@ const { throwError } = require('../utils/handleErrors');
 module.exports = class Database {
   static async db() {
     try {
-      const connection = await connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-      });
+      const connection = await connect(MONGODB_URI);
 
       if (!connection) {
         throwError('Unable to connect to database', 500);

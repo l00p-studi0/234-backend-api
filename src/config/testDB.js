@@ -7,12 +7,7 @@ module.exports = class Database {
   static async db() {
     try {
       console.log("MONGODB_TEST_URI",MONGODB_TEST_URI)
-      const connection = await connect(MONGODB_TEST_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-      });
+      const connection = await connect(MONGODB_TEST_URI);
       console.log(connection)
 
       if (!connection) {
