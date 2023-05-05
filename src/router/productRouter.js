@@ -7,8 +7,8 @@ const { ADMIN_ROLES, USER_TYPE } = require("../utils/constants");
 productRoute
   .route("/products")
   .post(
-    // authenticate,
-    // permit([USER_TYPE.BUSINESS, USER_TYPE.INDIVIDUAL]),
+    authenticate,
+    permit([ADMIN_ROLES.ADMIN,ADMIN_ROLES.SUPER_ADMIN]),
     productController.createProduct
   );
 
@@ -18,42 +18,21 @@ productRoute
  .get(productController.getAllProduct
  );
 
-// get user product
-productRoute
-  .route("/products/user")
-  .get(
-    // authenticate,
-    // permit([USER_TYPE.BUSINESS, USER_TYPE.INDIVIDUAL]),
-    productController.getUserProduct
-  );
 
-// user can make product not available
-productRoute
-  .route("/products/available/status")
-  .put(
-    // authenticate,
-    // permit([USER_TYPE.BUSINESS, USER_TYPE.INDIVIDUAL]),
-    productController.makeProductNotAvailable
-  );
 
 //search product
 productRoute
 .route("/products-one/search")
 .get(productController.searchProducts)
 
-// get all products near you
-productRoute
-  .route("/products/near/you")
-  .get(
-    // authenticate,
-     productController.getProductsNearYou);
+
 
 //save product
   productRoute
   .route("/products/save-product")
   .post(
-    // authenticate,
-    // permit([USER_TYPE.USER,USER_TYPE.BUSINESS,USER_TYPE.INDIVIDUAL]),
+    authenticate,
+    // permit([ADMIN_ROLES.ADMIN,ADMIN_ROLES.SUPER_ADMIN]),
     productController.saveProduct
   );
 
@@ -61,18 +40,13 @@ productRoute
   productRoute
   .route("/products/save-product/all")
   .get(
-    // authenticate,
-    // permit([USER_TYPE.USER,USER_TYPE.BUSINESS,USER_TYPE.INDIVIDUAL]),
+    authenticate,
+    // permit([ADMIN_ROLES.ADMIN,ADMIN_ROLES.SUPER_ADMIN]),
     productController.AllsaveProduct
   );
 
 
-  //check product availability
-productRoute
-.route("/products/is-available")
-.post(
- productController.checkProductAvailability
-);
+  
 
  // get all booked products 
  productRoute
@@ -98,8 +72,8 @@ productRoute
 productRoute
 .route("/products/:id")
 .delete(
-  // authenticate,
-  // permit([USER_TYPE.BUSINESS, USER_TYPE.INDIVIDUAL]),
+  authenticate,
+  permit([ADMIN_ROLES.ADMIN,ADMIN_ROLES.SUPER_ADMIN]),
   productController.deleteProduct
 );
 
@@ -107,8 +81,8 @@ productRoute
 productRoute
 .route("/products/:id")
 .put(
-  // authenticate,
-  // permit([USER_TYPE.BUSINESS, USER_TYPE.INDIVIDUAL]),
+  authenticate,
+  permit([ADMIN_ROLES.ADMIN,ADMIN_ROLES.SUPER_ADMIN]),
   productController.updateProduct
 );
 
