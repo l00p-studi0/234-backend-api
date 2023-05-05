@@ -27,3 +27,15 @@
 {"level":"info","message":"Booking Backend Service Started on port 5000"}
 {"level":"info","message":"Database connection successful!"}
 {"level":"info","message":"Booking Backend Service Started on port 5000"}
+{"level":"error","message":"Database connection failed!"}
+{"level":"info","message":"Booking Backend Service Started on port 5000"}
+{"level":"info","message":"Database connection successful!"}
+{"level":"info","message":"Booking Backend Service Started on port 5000"}
+{"level":"error","message":"Database connection failed!"}
+{"level":"info","message":"Booking Backend Service Started on port 5000"}
+{"level":"info","message":"Database connection successful!"}
+{"level":"info","message":"Booking Backend Service Started on port 5000"}
+{"level":"error","message":"Database connection failed!"}
+{"level":"info","message":"Booking Backend Service Started on port 5000"}
+{"level":"info","message":"Database connection successful!"}
+{"level":"info","message":"Booking Backend Service Started on port 5000"}
