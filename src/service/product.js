@@ -4,9 +4,9 @@ const productWishlistSchema = require("../models/productWishlistModel");
 const { throwError } = require("../utils/handleErrors");
 const { validateParameters } = require("../utils/util");
 const util = require("../utils/util");
-const {
-  BOOKING_STATUS,
-} = require("../utils/constants");
+const { BOOKING_STATUS, TRANSACTION_TYPE } = require("../utils/constants");
+const { initiatePaymentFlutterwave } = require("../integration/flutterwave");
+const Transaction = require("./Transaction");
 
 class product {
   constructor(data) {
@@ -16,14 +16,7 @@ class product {
 
   async createProduct() {
     const { isValid, messages } = validateParameters(
-      [
-        "Name",
-        "Description",
-        "Size",
-        "Price",
-        "Category",
-        "featuredImages"
-      ],
+      ["Name", "Description", "Size", "Price", "Category", "featuredImages"],
       this.data
     );
     if (!isValid) {
@@ -33,40 +26,40 @@ class product {
   }
 
   async getProductById() {
-    return await productSchema.findById(this.data).orFail(() =>
-      throwError("product Not Found", 404)
-    );
+    return await productSchema
+      .findById(this.data)
+      .orFail(() => throwError("product Not Found", 404));
   }
 
   async getAllProduct() {
-    const limit = this.data.limit
-    const skip = this.data.skip
-    return await productSchema.find({}, null, {skip: skip || 0, limit: limit || 10})
+    const limit = this.data.limit;
+    const skip = this.data.skip;
+    return await productSchema
+      .find({}, null, { skip: skip || 0, limit: limit || 10 })
       .sort({ createdAt: -1 })
       .orFail(() => throwError("No product Found", 404));
   }
 
   async deleteProduct() {
     const { id, userId } = this.data;
-    return await productSchema.deleteOne({_id: id}).orFail(() =>
-      throwError("product Not Found", 404)
-    );
-     
+    return await productSchema
+      .deleteOne({ _id: id })
+      .orFail(() => throwError("product Not Found", 404));
   }
 
   async updateProduct() {
     const { newDetails, id, userId } = this.data;
-    const product = await productSchema.findById(id).orFail(() =>
-      throwError("product Not Found", 404)
-    );
+    const product = await productSchema
+      .findById(id)
+      .orFail(() => throwError("product Not Found", 404));
     const updates = Object.keys(newDetails);
     const allowedUpdates = [
-        "Name",
-        "Description",
-        "Size",
-        "Price",
-        "Category",
-        "featuredImages"
+      "Name",
+      "Description",
+      "Size",
+      "Price",
+      "Category",
+      "featuredImages",
     ];
     return await util.performUpdate(
       updates,
@@ -86,39 +79,32 @@ class product {
 
   // search products
   async searchProducts() {
-    const {
-      Name,
-      Price,
-      Category,
-      Size,
-    } = this.data;
-    
+    const { Name, Price, Category, Size } = this.data;
+
     let query = {
       $or: [
         {
-           Name: new RegExp(Name, 'i') ,
+          Name: new RegExp(Name, "i"),
         },
         {
-          Size
+          Size,
         },
         {
-          Price
+          Price,
         },
         {
-          Category
+          Category,
         },
       ],
       $and: [
         {
           Available: true,
-        }
+        },
       ],
     };
-  
-   return await productSchema.find(query);
-  }
 
- 
+    return await productSchema.find(query);
+  }
 
   //wishlist product
   async saveproduct() {
@@ -128,23 +114,22 @@ class product {
     console.log(check);
     if (check) {
       throwError("product already saved for later");
-    } 
-      return await new productWishlistSchema({ productId, userId }).save();
-    
+    }
+    return await new productWishlistSchema({ productId, userId }).save();
   }
 
-   //get all user wishlist product
-   async allSaveproduct() {
+  //get all user wishlist product
+  async allSaveproduct() {
     console.log(this.data);
-    const {userId} = this.data;
+    const { userId } = this.data;
     console.log();
-    return await productWishlistSchema.find(this.data).populate("productId").orFail(()=> {
-      throwError("No saved product");
-    });
-    
+    return await productWishlistSchema
+      .find(this.data)
+      .populate("productId")
+      .orFail(() => {
+        throwError("No saved product");
+      });
   }
-
-  
 
   //get all Booked products
   async getAllBookedproduct() {
@@ -159,6 +144,7 @@ class product {
     });
     return availableproduct;
   }
+ 
 }
 
 module.exports = product;

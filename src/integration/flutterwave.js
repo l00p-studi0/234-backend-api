@@ -13,8 +13,8 @@ exports.initiatePaymentFlutterwave = async (
   email,
   phone,
   name,
-  userId,
-  bookingId
+  address,
+  booking_id
 ) => {
   try {
     let data = JSON.stringify({
@@ -26,10 +26,10 @@ exports.initiatePaymentFlutterwave = async (
         email: email,
         phonenumber: phone,
         name: name,
+        address
       },
       meta: {
-        booking_id: bookingId,
-        user_id: userId,
+        booking_id
       },
     });
     var config = {
