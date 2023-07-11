@@ -79,16 +79,6 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-// make Product not available
-exports.makeProductNotAvailable = async (req, res) => {
-  try {
-    const product = await new Product(req.body).makeProductNotAvailable();
-    return success(res, { product });
-  } catch (err) {
-    logger.error("Unable to to set Product to available", err);
-    return error(res, { code: err.code, message: err.message });
-  }
-};
 
 // search Products
 exports.searchProducts = async (req, res) => {
@@ -101,25 +91,7 @@ exports.searchProducts = async (req, res) => {
   }
 };
 
-// all Product near you by location state and city
-exports.getProductsNearYou = async (req, res) => {
-  try {
-    const user = await new User(req.user._id).userProfile();
-    const ProductCountry = user.country || "nigeria";
-    console.log(user.country);
-    const ProductState = user.state || "lagos";
-    console.log(user.state);
-    const Products = await new Product({
-      ProductCountry,
-      ProductState,
-    }).getProductsNearYou();
-    return success(res, { Products });
-  } catch (err) {
-    console.log(err);
-    logger.error("Unable to get all Products", err);
-    return error(res, { code: err.code, message: err.message });
-  }
-};
+
 
 // save Product
 exports.saveProduct = async (req, res) => {
@@ -145,18 +117,7 @@ exports.AllsaveProduct = async (req, res) => {
   }
 };
 
-exports.checkProductAvailability = async (req, res) => {
-  try {
-    req.body["userId"] = req.user._id;
-    await new Product(req.body).checkProductAvailability();
-    console.log(req.body);
-    return success(res, { message: "Product is available for booking" });
-  } catch (err) {
-    console.log(err);
-    logger.error("Product is unavailable for booking", err);
-    return error(res, { code: err.code, message: err.message });
-  }
-};
+
 // get all the booked Products
 exports.getAllBookedProduct = async (req, res) => {
   try {

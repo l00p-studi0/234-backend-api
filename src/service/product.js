@@ -153,9 +153,9 @@ class product {
   }
 
   //get all Available products
-  async getAllAvailableproduct() {
+  async getAllAvailableProduct() {
     const availableproduct = await productSchema.find({
-      isAvailable: true,
+      Available: true,
     });
     return availableproduct;
   }
