@@ -21,6 +21,10 @@ const ProductSchema = new Schema({
     type: Array,
     required: true,
   },
+  Color: {
+    type: Array,
+    required: true,
+  },
   Available: {
     type: Boolean,
     required: true,

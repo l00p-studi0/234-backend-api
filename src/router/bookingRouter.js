@@ -19,7 +19,7 @@ bookingRoute
   .route("/bookings/all-bookings")
   .get(authenticate,permit([ADMIN_ROLES.SUPER_ADMIN, ADMIN_ROLES.ADMIN]),bookingController.getAllBookings);
 
-// get most booked listing
+// get most booked listingcreate-booking
 bookingRoute
 .route("/bookings/most-booked")
 .get(authenticate,permit([ADMIN_ROLES.SUPER_ADMIN, ADMIN_ROLES.ADMIN]),bookingController.getMostBookedListing);
